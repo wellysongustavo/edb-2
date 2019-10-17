@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="HuffmanCoding:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/HuffmanCoding_jar</output-path>
+    <root id="root">
+      <element id="archive" name="programa.jar">
+        <element id="module-output" name="HuffmanCoding" />
+      </element>
+    </root>
+  </artifact>
+</component>

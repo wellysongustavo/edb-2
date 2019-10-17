@@ -14,7 +14,6 @@ public class Reader {
     public Map<Character, Integer> leituraArquivo(String arquivo_de_teste) {
         Map<Character, Integer> map = new HashMap<Character, Integer>();
 
-        System.out.printf("\nConteúdo do arquivo texto:\n");
         try {
             FileReader arquivo = new FileReader("arquivos-de-teste/"+arquivo_de_teste);
             BufferedReader ler_arquivo = new BufferedReader(arquivo);
@@ -39,7 +38,7 @@ public class Reader {
 
             arquivo.close();
         } catch (IOException e) {
-            System.err.printf("Erro na abertura do arquivo: %s.\n",e.getMessage());
+            System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
         }
 
         System.out.println(map);

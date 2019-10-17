@@ -7,6 +7,10 @@ public class Node {
     private Node left = null;
     private Node right = null;
 
+    public void setLetter(char letter) {
+        this.letter = letter;
+    }
+
     public Node(char letter, int frequency) {
         this.letter = letter;
         this.frequency = frequency;

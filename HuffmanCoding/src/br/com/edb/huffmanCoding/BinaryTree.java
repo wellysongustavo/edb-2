@@ -24,7 +24,7 @@ public class BinaryTree {
     public void insert(Node node) {
         ensureCapacity();
         nodes[getSize()] = node;
-        heapifyUp(getSize());
+        heapifyDown(getSize());
         size++;
     }
 
@@ -99,6 +99,14 @@ public class BinaryTree {
             nodes[childIndex] = tmp;
             heapifyDown(childIndex);
         }
+    }
+
+    public boolean isEmpty() {
+        return getSize() == 0;
+    }
+
+    public Node getRaiz() {
+        return null;
     }
 }
 
