@@ -11,24 +11,16 @@ import java.util.Map;
 
 public class Reader {
 
-    public static void leituraArquivo() {
+    public void leituraArquivo(String arquivo_de_teste) {
         HashMap<Character, Integer> map = new HashMap<Character, Integer>();
-        Scanner ler = new Scanner(System.in);
-
-        //System.out.printf("Informe o nome de arquivo texto:\n");
-        //Precisa verificar uma forma de indicar o caminho da pasta independente de qual pc rodar
-        //esse eh temporário e tem que criar antes de executar
-        String nome = "/tmp/file.txt";  //ler.nextLine();
 
         System.out.printf("\nConteúdo do arquivo texto:\n");
         try {
-            FileReader arquivo= new FileReader(nome);
+            FileReader arquivo = new FileReader("arquivos-de-teste/"+arquivo_de_teste);
             BufferedReader ler_arquivo = new BufferedReader(arquivo);
 
-            String linha = ler_arquivo.readLine(); // lê a primeira linha
+            String linha = ler_arquivo.readLine();
 
-            // a variável "linha" recebe o valor "null" quando o processo
-            // de repetição atingir o final do arquivo texto
             while (linha != null) {
                 System.out.printf("%s\n", linha);
 
@@ -47,8 +39,7 @@ public class Reader {
 
             arquivo.close();
         } catch (IOException e) {
-            System.err.printf("Erro na abertura do arquivo: %s.\n",
-                    e.getMessage());
+            System.err.printf("Erro na abertura do arquivo: %s.\n",e.getMessage());
         }
 
         System.out.println(map);
