@@ -11,8 +11,8 @@ import java.util.Map;
 
 public class Reader {
 
-    public void leituraArquivo(String arquivo_de_teste) {
-        HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+    public Map<Character, Integer> leituraArquivo(String arquivo_de_teste) {
+        Map<Character, Integer> map = new HashMap<Character, Integer>();
 
         System.out.printf("\nConteúdo do arquivo texto:\n");
         try {
@@ -43,6 +43,7 @@ public class Reader {
         }
 
         System.out.println(map);
+        return map;
     }
 }
 

@@ -11,6 +11,13 @@ public class Node {
         this.letter = letter;
         this.frequency = frequency;
     }
+    public Node(int frequency) {
+        this.frequency = frequency;
+    }
+
+    public Node() {
+
+    }
 
     public char getLetter() { return letter; }
     public int getFrequency() { return frequency; }

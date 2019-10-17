@@ -1,5 +1,7 @@
 package br.com.edb.huffmanCoding;
 
+import java.util.Arrays;
+
 public class BinaryTree {
     private Node[] nodes; //manda nodes
     private int size;//quantos elementos tem
