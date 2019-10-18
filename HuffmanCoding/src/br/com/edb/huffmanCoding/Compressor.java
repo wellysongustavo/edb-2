@@ -55,7 +55,7 @@ public class Compressor {
 
 
     public void createTableBinary(BinaryTree minHeap) {
-        
+
     }
 
 
