@@ -23,15 +23,15 @@ public class View extends JComponent {
         graphics.drawString(node.getLetter(), x+8, y+20);
 
         if(node.getLeft() != null){
-            int childX = x-40;
-            int childY = y+40;
+            int childX = x-60;
+            int childY = y+60;
             graphics.drawLine(x + nodeSize/2 , y + nodeSize, childX + nodeSize/2, childY);
             drawNode(graphics, node.getLeft(), childX, childY, level+1);
         }
 
         if(node.getRight() != null){
-            int childX = x+40;
-            int childY = y+40;
+            int childX = x+60;
+            int childY = y+60;
             graphics.drawLine(x + nodeSize/2 , y + nodeSize, childX + nodeSize/2, childY);
             drawNode(graphics, node.getRight(), childX, childY, level+1);
         }
