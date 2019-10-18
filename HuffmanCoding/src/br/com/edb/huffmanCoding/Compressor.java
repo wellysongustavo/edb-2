@@ -24,30 +24,30 @@ public class Compressor {
         Map<Character, Integer> map = reader.leituraArquivo(arquivo_de_texto);
 
         //ordenar elementos de acordo com suas frequências
+        /*
         Map<Character, Integer> sorted = map.entrySet()
                                             .stream()
                                             .sorted(Map.Entry.<Character, Integer>comparingByValue())
                                             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                                                     (e1,e2) -> e1, LinkedHashMap::new));
         System.out.println(sorted);
+        */
 
         //transformar elementos em nós e inserir na min heap
         BinaryTree minHeap = new BinaryTree();
-        for (Character c : sorted.keySet()) {
-            Node no = new Node(c, map.get(c));
+        for (Character c : map.keySet()) {
+            Node no = new Node(String.valueOf(c), map.get(c));
             minHeap.insert(no);
         }
-        System.out.println(minHeap.getSize());
-        System.out.println("oi");
-
         createBinaryTree(minHeap);
     }
 
     public void createBinaryTree(BinaryTree minHeap) {
-        if(!minHeap.isEmpty()){
-            //System.out.println(minHeap.getSize());
-            //createTableCod(minHeap);
-        }
+        BinaryTree binaryTree = new BinaryTree();
+//        if(!minHeap.isEmpty()){
+//            //System.out.println(minHeap.getSize());
+//            //createTableCod(minHeap);
+//        }
         while (minHeap.getSize() > 1){
 
             Node left = minHeap.peek();
@@ -57,24 +57,20 @@ public class Compressor {
 
             Node node = new Node();
             node.setFrequency(left.getFrequency() + right.getFrequency());
+            node.setLetter(String.valueOf(left.getFrequency() + right.getFrequency()));
 
             node.setLeft(left);
             node.setRight(right);
 
             minHeap.insert(node);
-
         }
-
         JFrame window = new JFrame(); //é uma estrutura organizada em árvore
         window.setSize(400,300);
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //qnd fechar janela mata o processo
-//JLabel label = new JLabel("Hello, world!!!!"); // cada filho também é uma árvore
-//window.add(label); // comentado pois não vamos nos aprofundar
-        ArvoreBinariaBuscaView view = new ArvoreBinariaBuscaView(minHeap);
+
+        View view = new View(minHeap);
         window.add(view);
         window.setVisible(true);
-
-        System.out.println("cheguei aqui");
     }
 
 

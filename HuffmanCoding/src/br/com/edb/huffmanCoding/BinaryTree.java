@@ -18,13 +18,13 @@ public class BinaryTree {
     }
 
     public void insert(char letter, int frequency) {
-        insert(new Node(letter, frequency));
+        insert(new Node(String.valueOf(letter), frequency));
     }
 
     public void insert(Node node) {
         ensureCapacity();
         nodes[getSize()] = node;
-        heapifyDown(getSize());
+        heapifyUp(getSize());
         size++;
     }
 
@@ -38,7 +38,7 @@ public class BinaryTree {
         Node pai    = nodes[parentIndex];
         Node node = nodes[index];
 
-        if (node.getFrequency() > pai.getFrequency()) {
+        if (node.getFrequency() < pai.getFrequency()) {
             nodes[index]   = pai;
             nodes[parentIndex] = node;
             heapifyUp(parentIndex);
@@ -83,17 +83,17 @@ public class BinaryTree {
             childIndex = leftChild;
         }
 
-        if (childIndex == -1) {
+        if (childIndex == -1) { // se é folha
             return;
         }
 
         if (rightChild < getSize()) {
-            if (nodes[rightChild].getFrequency() > nodes[leftChild].getFrequency()) {
+            if (nodes[rightChild].getFrequency() < nodes[leftChild].getFrequency()) {
                 childIndex = rightChild;
             }
         }
 
-        if (nodes[index].getFrequency() < nodes[childIndex].getFrequency()) {
+        if (nodes[index].getFrequency() > nodes[childIndex].getFrequency()) {
             Node tmp          = nodes[index];
             nodes[index]      = nodes[childIndex];
             nodes[childIndex] = tmp;

@@ -2,16 +2,16 @@ package br.com.edb.huffmanCoding;
 
 public class Node {
 
-    private char letter;
+    private String letter;
     private int frequency;
     private Node left = null;
     private Node right = null;
 
-    public void setLetter(char letter) {
+    public void setLetter(String letter) {
         this.letter = letter;
     }
 
-    public Node(char letter, int frequency) {
+    public Node(String letter, int frequency) {
         this.letter = letter;
         this.frequency = frequency;
     }
@@ -23,7 +23,7 @@ public class Node {
 
     }
 
-    public char getLetter() { return letter; }
+    public String getLetter() { return letter; }
     public int getFrequency() { return frequency; }
     public void setFrequency(int frequency) { this.frequency = frequency; }
 

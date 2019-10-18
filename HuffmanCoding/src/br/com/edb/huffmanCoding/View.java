@@ -4,10 +4,10 @@ package br.com.edb.huffmanCoding;
 import javax.swing.*;
 import java.awt.*;
 
-public class ArvoreBinariaBuscaView extends JComponent {
+public class View extends JComponent {
     private BinaryTree arvore;
     private int nodeSize = 30;
-    public ArvoreBinariaBuscaView(BinaryTree arvore) {
+    public View(BinaryTree arvore) {
         this.arvore = arvore;
     }
 
@@ -19,7 +19,7 @@ public class ArvoreBinariaBuscaView extends JComponent {
 
     private void drawNode(Graphics graphics, Node node, int x, int y, int level){
         graphics.drawOval(x, y, nodeSize, nodeSize);
-        graphics.drawString(String.valueOf(node.getLetter()), x+8, y+20);
+        graphics.drawString(node.getLetter(), x+8, y+20);
 
         if(node.getLeft() != null){
             int childX = x-40;
