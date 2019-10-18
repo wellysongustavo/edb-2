@@ -23,16 +23,6 @@ public class Compressor {
         Reader reader = new Reader();
         Map<Character, Integer> map = reader.leituraArquivo(arquivo_de_texto);
 
-        //ordenar elementos de acordo com suas frequências
-        /*
-        Map<Character, Integer> sorted = map.entrySet()
-                                            .stream()
-                                            .sorted(Map.Entry.<Character, Integer>comparingByValue())
-                                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
-                                                    (e1,e2) -> e1, LinkedHashMap::new));
-        System.out.println(sorted);
-        */
-
         //transformar elementos em nós e inserir na min heap
         BinaryTree minHeap = new BinaryTree();
         for (Character c : map.keySet()) {
