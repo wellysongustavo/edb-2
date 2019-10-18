@@ -7,6 +7,7 @@ import java.awt.*;
 public class View extends JComponent {
     private BinaryTree arvore;
     private int nodeSize = 30;
+
     public View(BinaryTree arvore) {
         this.arvore = arvore;
     }

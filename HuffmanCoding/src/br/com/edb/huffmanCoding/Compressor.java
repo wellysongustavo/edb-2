@@ -33,11 +33,6 @@ public class Compressor {
     }
 
     public void createBinaryTree(BinaryTree minHeap) {
-        BinaryTree binaryTree = new BinaryTree();
-//        if(!minHeap.isEmpty()){
-//            //System.out.println(minHeap.getSize());
-//            //createTableCod(minHeap);
-//        }
         while (minHeap.getSize() > 1){
 
             Node left = minHeap.peek();
@@ -54,19 +49,13 @@ public class Compressor {
 
             minHeap.insert(node);
         }
-        JFrame window = new JFrame(); //é uma estrutura organizada em árvore
-        window.setSize(400,300);
-        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //qnd fechar janela mata o processo
-
-        View view = new View(minHeap);
-        window.add(view);
-        window.setVisible(true);
+        minHeap.printTree();
+        createTableBinary(minHeap);
     }
 
 
-    public void createTableCod(BinaryTree minHeap) {
-
-
+    public void createTableBinary(BinaryTree minHeap) {
+        
     }
 
 

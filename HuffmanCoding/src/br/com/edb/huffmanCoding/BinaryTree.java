@@ -1,5 +1,6 @@
 package br.com.edb.huffmanCoding;
 
+import javax.swing.*;
 import java.util.Arrays;
 
 public class BinaryTree {
@@ -107,6 +108,17 @@ public class BinaryTree {
 
     public Node getRaiz() {
         return null;
+    }
+
+    public void printTree(){
+
+        JFrame window = new JFrame(); //é uma estrutura organizada em árvore
+        window.setSize(400,300);
+        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //qnd fechar janela mata o processo
+
+        View view = new View(this);
+        window.add(view);
+        window.setVisible(true);
     }
 }
 
