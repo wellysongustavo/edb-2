@@ -4,6 +4,10 @@ import javax.swing.*;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Scanner;
 
 public class Compressor {
     private String arquivo_de_texto;
@@ -25,6 +29,7 @@ public class Compressor {
         createBinaryTree();
         createBinaryTable();
         encodeText();
+        storeCodingTable();
     }
 
     public void transformCharToNode(){
@@ -106,6 +111,17 @@ public class Compressor {
         }
 
          */
+    }
+
+    public void storeCodingTable() throws IOException {
+        FileWriter file = new FileWriter(arquivo_tabela_de_codificacao);
+        PrintWriter write = new PrintWriter(file);
+
+        for (Map.Entry<String, String> coding : binary_table.entrySet()) {
+            write.printf(coding.getKey()+coding.getValue()+"\r\n");
+        }
+
+        file.close();
     }
 
 }
