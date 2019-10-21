@@ -7,10 +7,6 @@ public class Node {
     private Node left = null;
     private Node right = null;
 
-    public void setLetter(String letter) {
-        this.letter = letter;
-    }
-
     public Node(String letter, int frequency) {
         this.letter = letter;
         this.frequency = frequency;
@@ -19,11 +15,10 @@ public class Node {
         this.frequency = frequency;
     }
 
-    public Node() {
-
-    }
+    public Node() {}
 
     public String getLetter() { return letter; }
+    public void setLetter(String letter) { this.letter = letter; }
     public int getFrequency() { return frequency; }
     public void setFrequency(int frequency) { this.frequency = frequency; }
 
@@ -32,4 +27,10 @@ public class Node {
     public void setRight(Node right) { this.right = right; }
     public Node getRight() { return right; }
 
+    public boolean isLeaf(){
+        if(left == null && right == null){
+            return true;
+        }
+        return false;
+    }
 }
