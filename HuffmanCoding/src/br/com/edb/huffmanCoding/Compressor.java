@@ -1,28 +1,33 @@
 package br.com.edb.huffmanCoding;
 
 import javax.swing.*;
+import java.io.*;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
-
-//import static java.util.Map.Entry.comparingByValue;
 
 public class Compressor {
     private String arquivo_de_texto;
     private String arquivo_comprimido;
     private String arquivo_tabela_de_codificacao;
     private Map<Character, Integer> map;
-    private Map<String, Integer> binary_table;
+    private Map<String, String> binary_table;
     private BinaryTree minHeap;
 
     Compressor(String arg1, String arg2, String arg3){
         arquivo_de_texto = arg1;
         arquivo_comprimido = arg2;
         arquivo_tabela_de_codificacao = arg3;
+
     }
 
-    public void sortedMap() {
+    public void comprimir() throws Exception{
+        transformCharToNode();
+        createBinaryTree();
+        createBinaryTable();
+        encodeText();
+    }
+
+    public void transformCharToNode(){
         Reader reader = new Reader();
         map = reader.leituraArquivo(arquivo_de_texto);
 
@@ -32,7 +37,6 @@ public class Compressor {
             Node no = new Node(String.valueOf(c), map.get(c));
             minHeap.insert(no);
         }
-        createBinaryTree();
     }
 
     public void createBinaryTree() {
@@ -53,37 +57,55 @@ public class Compressor {
             minHeap.insert(node);
         }
         //minHeap.printTree();
-        createBinaryTable();
     }
 
     public void createBinaryTable() {
-        binary_table = new HashMap<String, Integer>();
+        binary_table = new HashMap<String, String>();
         Node root = minHeap.peek();
         String binary = "";
-        //percorrer árvores até cada folha e capturar seu código binário
-        //findLeaf(root, binary);
+        findLeaf(root, binary);
         System.out.println(binary_table);
     }
 
     public void findLeaf(Node root, String binary){
-        if (root == null){
-            return;
-        }
         if(root.isLeaf()){
-            binary_table.put(root.getLetter(), Integer.valueOf(binary));
-            binary = binary.substring(0,binary.length()-1);
+            binary_table.put(root.getLetter(), binary);
             return;
+
         }else{
-            if(root.getLeft() != null){
-                binary = binary.concat("0");
-                findLeaf(root.getLeft(),binary);
-            }
-            if(root.getRight() != null){
-                binary = binary.concat("1");
-                findLeaf(root.getRight(),binary);
-            }
+            findLeaf(root.getLeft(),binary + "0");
+            findLeaf(root.getRight(),binary + "1");
         }
     }
 
+    public void encodeText() throws IOException {
+        /*
+        OutputStream opStream = null;
+        try {
+            File byteFile = new File(arquivo_comprimido);
+            if(!byteFile.exists()){
+                byteFile.createNewFile();
+            }
+            opStream = new FileOutputStream(byteFile);
+
+            FileReader fr = new FileReader("arquivos-de-teste/"+arquivo_de_texto);
+            int c;
+            while ((c = fr.read()) != -1){
+                byte[] byteContent = binary_table.get(String.valueOf(c));
+                opStream.write(byteContent);
+                opStream.flush();
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        } finally {
+            try {
+                if (opStream != null) opStream.close();
+            }catch (Exception ex){
+
+            }
+        }
+
+         */
+    }
 
 }

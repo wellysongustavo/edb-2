@@ -41,7 +41,7 @@ public class Reader {
             System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
         }
 
-        System.out.println(map);
+        //System.out.println(map);
         return map;
     }
 }
