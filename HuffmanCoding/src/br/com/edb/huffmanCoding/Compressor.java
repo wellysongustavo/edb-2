@@ -25,12 +25,16 @@ public class Compressor {
 
     }
 
+    Compressor() {
+
+    }
+
     public void comprimir() throws Exception{
         transformCharToNode();
         createBinaryTree();
         createBinaryTable();
-        //encodeText();
-        //storeCodingTable();
+        encodeText();
+        storeCodingTable();
     }
 
     public void transformCharToNode(){
@@ -83,13 +87,40 @@ public class Compressor {
             findLeaf(root.getRight(),binary + "1");
         }
     }
-/*
+
     public void encodeText() throws IOException {
 
         FileReader fr = new FileReader("arquivos-de-teste/"+arquivo_de_texto);
-
+        OutputStream compressed = new BufferedOutputStream(new FileOutputStream(arquivo_comprimido));
+        BitSet encoded_bitset = new BitSet();
         //BufferedReader buff = new BufferedReader(fr);
-        //FileOutputStream out = new FileOutputStream(arquivo_comprimido);
+
+        int n_bits = 0;
+        int c;
+        String encoded_string = "";
+        while ((c = fr.read()) != -1){
+            encoded_string = binary_table.get(Character.toString((char)c));
+            //System.out.println(encoded_string);
+            //transformando de string para bitset cada caractere lido acima
+            if(encoded_string != null){
+                for (int i = 0; i < encoded_string.length(); i++){
+                    encoded_bitset.set(n_bits++, encoded_string.charAt(i) - '0' > 0 ? true : false);
+                }
+            }
+        }
+        //acrescentando EOF, tem que adc um nó com o valor EOF em código binário; essa é dica do prof
+        //encoded_string = binary_table.get(-1);
+        byte[] bytes = encoded_bitset.toByteArray();
+        compressed.write(bytes);
+        fr.close();
+        compressed.close();
+    }
+
+
+        /*--------------------------------------------------------------------------------------------------------------
+        FileReader fr = new FileReader("arquivos-de-teste/"+arquivo_de_texto);
+        BufferedReader buff = new BufferedReader(fr);
+        FileOutputStream out = new FileOutputStream(arquivo_comprimido);
 
         int c;
         String encoded_string = "";
@@ -107,7 +138,13 @@ public class Compressor {
 
         encoded_bitset = fromString(encoded_string.substring(0,encoded_string.length()));
         encoded_string = "";
-    }
+
+        FileWriter file = new FileWriter(arquivo_comprimido);
+        PrintWriter write = new PrintWriter(file);
+        //write.printf(encoded_bitset);
+
+        --------------------------------------------------------------------------------------------------------------*/
+
 
     private static BitSet fromString(final String s) {
         return BitSet.valueOf(new long[] { Long.parseLong(s, 2) });
@@ -116,7 +153,7 @@ public class Compressor {
     private static String toString(BitSet bs) {
         return Long.toString(bs.toLongArray()[0], 2);
     }
-*/
+
     public void storeCodingTable() throws IOException {
         FileWriter file = new FileWriter(arquivo_tabela_de_codificacao);
         PrintWriter write = new PrintWriter(file);
