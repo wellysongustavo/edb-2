@@ -2,6 +2,7 @@ package br.com.edb.huffmanCoding;
 
 import javax.swing.*;
 import java.io.*;
+import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.FileWriter;
@@ -28,8 +29,8 @@ public class Compressor {
         transformCharToNode();
         createBinaryTree();
         createBinaryTable();
-        encodeText();
-        storeCodingTable();
+        //encodeText();
+        //storeCodingTable();
     }
 
     public void transformCharToNode(){
@@ -82,37 +83,40 @@ public class Compressor {
             findLeaf(root.getRight(),binary + "1");
         }
     }
-
+/*
     public void encodeText() throws IOException {
-        /*
-        OutputStream opStream = null;
-        try {
-            File byteFile = new File(arquivo_comprimido);
-            if(!byteFile.exists()){
-                byteFile.createNewFile();
-            }
-            opStream = new FileOutputStream(byteFile);
 
-            FileReader fr = new FileReader("arquivos-de-teste/"+arquivo_de_texto);
-            int c;
-            while ((c = fr.read()) != -1){
-                byte[] byteContent = binary_table.get(String.valueOf(c));
-                opStream.write(byteContent);
-                opStream.flush();
-            }
-        }catch (IOException e){
-            e.printStackTrace();
-        } finally {
-            try {
-                if (opStream != null) opStream.close();
-            }catch (Exception ex){
+        FileReader fr = new FileReader("arquivos-de-teste/"+arquivo_de_texto);
 
-            }
+        //BufferedReader buff = new BufferedReader(fr);
+        //FileOutputStream out = new FileOutputStream(arquivo_comprimido);
+
+        int c;
+        String encoded_string = "";
+        while ((c = fr.read()) != -1){
+            encoded_string.concat(binary_table.get(String.valueOf(c)));
         }
+        System.out.println(encoded_string);
+        fr.close();
 
-         */
+        BitSet encoded_bitset = new BitSet();
+        int index = encoded_string.length() - encoded_string.length() % 8;
+        encoded_bitset = fromString(encoded_string.substring(0,index));
+        encoded_string = encoded_string.substring(index+1);
+        System.out.println(encoded_string);
+
+        encoded_bitset = fromString(encoded_string.substring(0,encoded_string.length()));
+        encoded_string = "";
     }
 
+    private static BitSet fromString(final String s) {
+        return BitSet.valueOf(new long[] { Long.parseLong(s, 2) });
+    }
+
+    private static String toString(BitSet bs) {
+        return Long.toString(bs.toLongArray()[0], 2);
+    }
+*/
     public void storeCodingTable() throws IOException {
         FileWriter file = new FileWriter(arquivo_tabela_de_codificacao);
         PrintWriter write = new PrintWriter(file);
@@ -123,5 +127,7 @@ public class Compressor {
 
         file.close();
     }
+
+
 
 }
