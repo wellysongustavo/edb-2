@@ -119,6 +119,9 @@ public class Compressor {
         fr.close();
         compressed.close();
 
+        System.out.println("\n----------------------------HUFFMAN CODING----------------------------\n");
+        System.out.println("O arquivo "+arquivo_de_texto+" foi comprimido em "+arquivo_comprimido+" com sucesso." );
+
     }
 
 

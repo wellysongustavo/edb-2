@@ -31,23 +31,26 @@ public class Extrator {
         int i = 0;
         String codigo = "";
         int aux = 0;
-        while (aux == 0){
-            //reescrevendo texto em string binária
-            codigo += leitura_bits.get(i) ? "1" : "0";
-            //procura existência do codigo na tabela
-            String caractere = tabela_codificacao.get(codigo);
 
-            if(caractere != null){
-                if(caractere.equals("EOF")){
-                    aux = 1;
-                }else{
-                    //se houver correspondência do código no map
-                    descomprimido.write(caractere);
-                    //zera codigo de busca
-                    codigo = "";
+        if(!leitura_bits.isEmpty()){
+            while (aux == 0){
+                //reescrevendo texto em string binária
+                codigo += leitura_bits.get(i) ? "1" : "0";
+                //procura existência do codigo na tabela
+                String caractere = tabela_codificacao.get(codigo);
+
+                if(caractere != null){
+                    if(caractere.equals("EOF")){
+                        aux = 1;
+                    }else{
+                        //se houver correspondência do código no map
+                        descomprimido.write(caractere);
+                        //zera codigo de busca
+                        codigo = "";
+                    }
                 }
+                i++;
             }
-            i++;
         }
         //System.out.println(codigo);
         descomprimido.close();
@@ -76,8 +79,12 @@ public class Extrator {
         System.out.println("\n----------------------------HUFFMAN CODING----------------------------\n");
         System.out.println("Tamanho do arquivo original: "+ leitura_bits_original.length());
         System.out.println("Tamanho do arquivo comprimido: "+ leitura_bits.length()+ "\n");
-        double taxa = (leitura_bits.length()*100)/leitura_bits_original.length();
-        System.out.println("----->  O arquivo foi comprimido "+taxa+"% do seu tamanho original. <-----");
+        if(!leitura_bits_original.isEmpty()){
+            double taxa = (leitura_bits.length()*100)/leitura_bits_original.length();
+            System.out.println("----->  O arquivo foi comprimido "+taxa+"% do seu tamanho original. <-----");
+        }else {
+            System.out.println("---------> O arquivo não foi comprimido pois estava vazio. <----------");
+        }
 
     }
 }

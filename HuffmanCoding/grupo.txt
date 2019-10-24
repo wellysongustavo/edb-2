@@ -1,2 +1,13 @@
 FERNANDA LAÍS PEREIRA DE SOUZA - 20170073150
 WELLLYSON GUSTAVO SILVA OLIVEIRA - 20170073517
+
+
+-
+Caminho do programa.jar
+out/artifacts/HuffmanCoding_jar/programa.jar
+
+Compressor: 
+java -jar out/artifacts/HuffmanCoding_jar/programa.jar compress teste1.txt arquivo.edz arquivo.edt 
+
+Extrator: 
+java -jar out/artifacts/HuffmanCoding_jar/programa.jar extract arquivo.edz arquivo.edt arquivo.txt
