@@ -1,10 +1,10 @@
 package br.com.edb.huffmanCoding;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.BitSet;
 import java.util.Scanner;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,6 +43,13 @@ public class Reader {
 
         //System.out.println(map);
         return map;
+    }
+
+    public BitSet leituraArquivoBinario(String arquivo_comprimido) throws IOException {
+        Path caminho = Paths.get(arquivo_comprimido);
+        byte[] leitura_bytes = Files.readAllBytes(caminho);
+        BitSet leitura_bits = BitSet.valueOf(leitura_bytes);
+        return leitura_bits;
     }
 }
 

@@ -1,9 +1,14 @@
 package br.com.edb.huffmanCoding;
 
+import java.io.*;
+import java.util.BitSet;
+import java.util.HashMap;
+
 public class Extrator {
     private String arquivo_comprimido;
     private String  arquivo_tabela_de_codificacao;
     private String arquivo_de_texto;
+    private HashMap<Integer, String> tabela_codificacao;
 
     Extrator(String arg1, String arg2, String arg3){
         arquivo_comprimido = arg1;
@@ -11,7 +16,54 @@ public class Extrator {
         arquivo_de_texto = arg3;
     }
 
-    public void extrair() {
-        return;
+    public void extrair() throws IOException {
+        Reader reader = new Reader();
+        BitSet leitura_bits = reader.leituraArquivoBinario(arquivo_comprimido);
+        BitSet empty = new BitSet();
+        FileWriter arquivo_descomprimido = new FileWriter(arquivo_de_texto);
+        BufferedWriter descomprimido = new BufferedWriter(arquivo_descomprimido);
+
+        tabela_codificacao = new HashMap<Integer, String>();
+        preencherTabela(tabela_codificacao);
+        System.out.println(tabela_codificacao);
+
+        int i = 0;
+        String codigo = "";
+        while (!leitura_bits.isEmpty()){
+            //reescrevendo texto em string binária
+            codigo += leitura_bits.get(i) ? "1" : "0";
+            //procura existência do codigo na tabela
+            String caractere = tabela_codificacao.get(Integer.valueOf(codigo));
+
+            //se achou o fim do arquivo // ESSE BREAK SÓ TA SAINDO DO IF E NAO DO LAÇO
+            if(caractere == "EOF"){
+                break;
+            }
+
+            if(caractere != null){
+                //se houver correspondência do código no map
+                arquivo_descomprimido.write(caractere);
+                //zera codigo de busca
+                codigo = "";
+            }
+        }
+        System.out.println(codigo);
+
+        descomprimido.close();
+    }
+
+    private void preencherTabela(HashMap<Integer, String> tabela_codificacao) throws IOException {
+        FileReader arquivo = new FileReader(arquivo_tabela_de_codificacao);
+        BufferedReader tabela = new BufferedReader(arquivo);
+        String linha = "";
+
+        while ((linha = tabela.readLine()) != null){
+            if(linha.contains("EOF")){
+                tabela_codificacao.put(Integer.valueOf(linha.substring(3)),linha.substring(0,3));
+            }else{
+                tabela_codificacao.put(Integer.valueOf(linha.substring(1)),linha.substring(0,1));
+            }
+        }
+        tabela.close();
     }
 }
