@@ -1,6 +1,5 @@
 package br.com.edb.huffmanCoding;
 
-import javax.swing.*;
 import java.io.*;
 import java.util.BitSet;
 import java.util.HashMap;
@@ -8,15 +7,14 @@ import java.util.Map;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Scanner;
 
 public class Compressor {
     private String arquivo_de_texto;
     private String arquivo_comprimido;
     private String arquivo_tabela_de_codificacao;
     private Map<Character, Integer> map;
-    private Map<String, String> binary_table;
-    private BinaryTree minHeap;
+    private Map<String, String> binary_table = new HashMap<String, String>();
+    private BinaryTree minHeap = new BinaryTree();
 
     Compressor(String arg1, String arg2, String arg3){
         arquivo_de_texto = arg1;
@@ -24,20 +22,22 @@ public class Compressor {
         arquivo_tabela_de_codificacao = arg3;
     }
 
+    public Compressor() {
+    }
+
     public void comprimir() throws Exception{
-        transformCharToNode();
+        transformCharToNode(minHeap, arquivo_de_texto);
         createBinaryTree();
-        createBinaryTable();
+        binary_table = createBinaryTable(minHeap, binary_table);
         encodeText();
         storeCodingTable();
     }
 
-    public void transformCharToNode(){
+    public void transformCharToNode(BinaryTree minHeap, String arquivo_de_texto){
         Reader reader = new Reader();
         map = reader.leituraArquivo(arquivo_de_texto);
 
         //transformar elementos em nós e inserir na min heap
-        minHeap = new BinaryTree();
         for (Character c : map.keySet()) {
             Node no = new Node(String.valueOf(c), map.get(c));
             minHeap.insert(no);
@@ -65,22 +65,22 @@ public class Compressor {
         //minHeap.printTree();
     }
 
-    public void createBinaryTable() {
-        binary_table = new HashMap<String, String>();
+    public Map<String, String> createBinaryTable(BinaryTree minHeap, Map<String, String> binary_table) {
         Node root = minHeap.peek();
         String binary = "";
-        findLeaf(root, binary);
-        System.out.println(binary_table);
+        findLeaf(root, binary, binary_table);
+        //System.out.println(binary_table);
+        return binary_table;
     }
 
-    public void findLeaf(Node root, String binary){
+    public void findLeaf(Node root, String binary, Map<String, String> binary_table){
         if(root.isLeaf()){
             binary_table.put(root.getLetter(), binary);
             return;
 
         }else{
-            findLeaf(root.getLeft(),binary + "0");
-            findLeaf(root.getRight(),binary + "1");
+            findLeaf(root.getLeft(),binary + "0", binary_table);
+            findLeaf(root.getRight(),binary + "1", binary_table);
         }
     }
 
@@ -96,7 +96,7 @@ public class Compressor {
         String encoded_string = "";
         while ((c = fr.read()) != -1){
             encoded_string = binary_table.get(Character.toString((char)c));
-            System.out.println(encoded_string);
+            //System.out.println(encoded_string);
             //transformando de string para bitset cada caractere lido acima
             if(encoded_string != null){
                 for (int i = 0; i < encoded_string.length(); i++){
@@ -107,17 +107,18 @@ public class Compressor {
         }
         //acrescentando o código do EOF
         encoded_string = binary_table.get("EOF");
-        System.out.println(encoded_string);
+        //System.out.println(encoded_string);
         for(int i = 0; i < encoded_string.length(); i++) {
             encoded_bitset.set(n_bits, encoded_string.charAt(i) - '0' > 0 ? true : false);
             n_bits++;
         }
 
-        System.out.println(encoded_bitset.length());
+//        System.out.println(encoded_bitset.length());
         byte[] bytes = encoded_bitset.toByteArray();
         compressed.write(bytes);
         fr.close();
         compressed.close();
+
     }
 
 
@@ -131,7 +132,5 @@ public class Compressor {
 
         file.close();
     }
-
-
 
 }

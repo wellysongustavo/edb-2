@@ -120,6 +120,10 @@ public class BinaryTree {
         window.add(view);
         window.setVisible(true);
     }
+
+    public Node[] getNodes() {
+        return nodes;
+    }
 }
 
 

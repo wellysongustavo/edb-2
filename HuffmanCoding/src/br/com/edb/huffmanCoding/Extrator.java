@@ -51,6 +51,7 @@ public class Extrator {
         }
         //System.out.println(codigo);
         descomprimido.close();
+        printCompressionPercents(arquivo_comprimido, arquivo_de_texto);
     }
 
     private void preencherTabela(HashMap<String, String> tabela_codificacao) throws IOException {
@@ -66,5 +67,17 @@ public class Extrator {
             }
         }
         tabela.close();
+    }
+
+    public void printCompressionPercents (String arquivo_comprimido, String arquivo_de_texto) throws IOException {
+        Reader reader = new Reader();
+        BitSet leitura_bits = reader.leituraArquivoBinario(arquivo_comprimido);
+        BitSet leitura_bits_original = reader.leituraArquivoBinario(arquivo_de_texto);
+        System.out.println("\n----------------------------HUFFMAN CODING----------------------------\n");
+        System.out.println("Tamanho do arquivo original: "+ leitura_bits_original.length());
+        System.out.println("Tamanho do arquivo comprimido: "+ leitura_bits.length()+ "\n");
+        double taxa = (leitura_bits.length()*100)/leitura_bits_original.length();
+        System.out.println("----->  O arquivo foi comprimido "+taxa+"% do seu tamanho original. <-----");
+
     }
 }

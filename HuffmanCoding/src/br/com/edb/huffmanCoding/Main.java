@@ -10,9 +10,9 @@ public class Main {
         }else if(args[0].equals("extract")){
             Extrator extrator = new Extrator(args[1], args[2], args[3]);
             extrator.extrair();
-
         }else{
             System.out.println("nada absolutamente nada");
         }
+
     }
 }
