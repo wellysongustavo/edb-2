@@ -36,13 +36,15 @@ public class Trie {
     public TrieNode checkPrefix(String text) {
         TrieNode aux = getRoot();
         char[] letters = text.toCharArray();
-        int count = 0;
 
         for(char letter : letters) {
-            if(aux.getChildren().containsKey(letter)) {
+            if(aux.getChildren().containsKey(letter)){
                 aux = aux.getChild(letter);
-            }else aux = null;
+            }else {
+                return null;
+            }
         }
+
         return aux;
     }
 
@@ -106,6 +108,27 @@ public class Trie {
             words = getSugestions(words, aux.getChild(prefix), text.concat(String.valueOf(prefix)));
         }
         return words;
+    }
+
+    public void remove(String text) {
+        TrieNode aux = checkPrefix(text);
+
+        if (aux != null) {
+            System.out.println("'"+text+"' foi removida com sucesso.");
+            int count = text.length();
+            while(text.length() > 0) {
+                aux = checkPrefix(text);
+                if(aux.getChildren().isEmpty()) {
+                    aux = null;
+                }
+                if(count == text.length() && aux.isWord()) {
+                    aux.setWord(false);
+                }
+                text = text.substring(0, text.length()-1);
+            }
+        }else {
+            System.out.println("Remoção inválida! Palavra não encontrada.");
+        }
     }
 
 }
