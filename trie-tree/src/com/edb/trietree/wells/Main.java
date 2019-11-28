@@ -17,7 +17,7 @@ public class Main {
         }
 
         try {
-            FileReader ler = new FileReader("/out/arquivos/"+arquivo);
+            FileReader ler = new FileReader("arquivos/"+arquivo);
             BufferedReader reader = new BufferedReader(ler);
             String row;
             while( (row = reader.readLine()) != null ){
