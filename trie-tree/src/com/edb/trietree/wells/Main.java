@@ -6,6 +6,8 @@ public class Main {
         Trie trie = new Trie();
 
         trie.insert("amei");
-
+        trie.insert("ameixa");
+        trie.searchWord("ameixaa");
+        //System.out.println(trie.getRoot().isWord());
     }
 }

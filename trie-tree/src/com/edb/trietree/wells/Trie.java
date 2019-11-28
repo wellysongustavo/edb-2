@@ -1,6 +1,7 @@
 package com.edb.trietree.wells;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Trie {
 
@@ -14,30 +15,52 @@ public class Trie {
         return this.root;
     }
 
-    public void insert(String word) {
-        char letters[] = word.toCharArray();
+    public void insert(String text) {
+        TrieNode aux = getRoot();
+        char[] letters = text.toCharArray();
         int count = 0;
 
         for (char letter : letters) {
-            TrieNode trieAux;
-
-            if((getRoot().children).containsKey(letter)) {
-                trieAux = (getRoot().children).get(letter);
-            }else {
-                trieAux = new TrieNode(letter);
-                (getRoot().children).put(letter, trieAux);
-            }
-            getRoot().children = trieAux.children;
             count++;
-
-            if(count == word.length()-1) {
-                trieAux.isWord = true;
+            if(aux.getChildren().containsKey(letter)) {
+                aux = aux.getChild(letter);
+            }else {
+                aux = aux.setChild(letter);
+                if(count == letters.length) {
+                    aux.setWord(true);
+                }
             }
         }
+        System.out.println(aux.isWord());
+    }
 
-
+    public void searchWord(String text) {
+        TrieNode aux = searchForPrefix(text);
+        if(aux == null){
+            System.out.println("A palavra pesquisada não existe.");
+        }
+        else if(aux.isWord()) {
+            System.out.println("A palavra pesquisada existe.");
+        }
 
     }
 
+    public TrieNode searchForPrefix(String text) {
+        TrieNode aux = getRoot();
+        char[] letters = text.toCharArray();
+        int count = 0;
+
+        for(char letter : letters) {
+            if(aux.getChildren().containsKey(letter)) {
+                aux = aux.getChild(letter);
+            }else aux = null;
+        }
+        return aux;
+    }
+
+    public TrieNode searchForPrefix(String text, int limitPrefix) {
+        ArrayList<String> autocomplet = new ArrayList<>();
+        TrieNode aux = searchForPrefix(text);
+    }
 
 }
