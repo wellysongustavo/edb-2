@@ -31,21 +31,9 @@ public class Trie {
                 }
             }
         }
-        System.out.println(aux.isWord());
     }
 
-    public void searchWord(String text) {
-        TrieNode aux = searchForPrefix(text);
-        if(aux == null){
-            System.out.println("A palavra pesquisada não existe.");
-        }
-        else if(aux.isWord()) {
-            System.out.println("A palavra pesquisada existe.");
-        }
-
-    }
-
-    public TrieNode searchForPrefix(String text) {
+    public TrieNode checkPrefix(String text) {
         TrieNode aux = getRoot();
         char[] letters = text.toCharArray();
         int count = 0;
@@ -58,9 +46,66 @@ public class Trie {
         return aux;
     }
 
-    public TrieNode searchForPrefix(String text, int limitPrefix) {
-        ArrayList<String> autocomplet = new ArrayList<>();
-        TrieNode aux = searchForPrefix(text);
+    public void searchWord(String text) {
+        TrieNode aux = checkPrefix(text);
+
+        if(aux == null){
+            System.out.println("A palavra pesquisada não existe.");
+        }
+        else if(aux.isWord()) {
+            System.out.println("A palavra pesquisada existe.");
+        }
+
+    }
+
+    public void searchForPrefix(String text) {
+        ArrayList<String> words = new ArrayList<>();
+        TrieNode aux = checkPrefix(text);
+
+        if(aux != null) {
+            words = getSugestions(words, aux, text);
+            if(words.isEmpty()) {
+                System.out.println("\nNenhuma sugestão encontrada.");
+            }else {
+                System.out.println("\nAutocomplete para '"+text+"':");
+                for(String word : words) {
+                        System.out.println(word);
+                }
+            }
+        }
+    }
+
+    public void searchForPrefix(String text, int limitPrefix) {
+        ArrayList<String> words = new ArrayList<>();
+        TrieNode aux = checkPrefix(text);
+
+        if(aux != null) {
+            words = getSugestions(words, aux, text);
+            if(words.isEmpty()) {
+                System.out.println("\nNenhuma sugestão encontrada.");
+            }else {
+                if(limitPrefix != -1) {
+                    System.out.println("\nAutocomplete para '"+text+"' com limite de "+limitPrefix+" sugestões:");
+                    for(String word : words) {
+                        if(limitPrefix > 0) {
+                            System.out.println(word);
+                            limitPrefix--;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public ArrayList<String> getSugestions(ArrayList<String> words, TrieNode aux, String text) {
+        if(aux.isWord()) {
+            words.add(text);
+        }
+
+        for(char prefix : aux.getChildren().keySet()) {
+            words = getSugestions(words, aux.getChild(prefix), text.concat(String.valueOf(prefix)));
+        }
+        return words;
     }
 
 }

@@ -7,7 +7,11 @@ public class Main {
 
         trie.insert("amei");
         trie.insert("ameixa");
-        trie.searchWord("ameixaa");
+        trie.insert("amor");
+        trie.insert("amora");
+        trie.searchWord("amor");
+        trie.searchForPrefix("am", 3);
+        trie.searchForPrefix("amo");
         //System.out.println(trie.getRoot().isWord());
     }
 }
