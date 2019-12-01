@@ -28,9 +28,7 @@ public class Main {
         }
 
         trie.searchForPrefix(prefixo, Integer.parseInt(quantidade));
-
-        trie.remove("ameixa");
-
+        trie.checkRemove("eles");
         trie.searchWord("amor");
     }
 }

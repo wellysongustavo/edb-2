@@ -17,16 +17,15 @@ public class Trie {
 
     public void insert(String text) {
         TrieNode aux = getRoot();
-        char[] letters = text.toCharArray();
         int count = 0;
 
-        for (char letter : letters) {
+        for (char letter : text.toCharArray()) {
             count++;
             if(aux.getChildren().containsKey(letter)) {
                 aux = aux.getChild(letter);
             }else {
                 aux = aux.setChild(letter);
-                if(count == letters.length) {
+                if(count == text.length()) {
                     aux.setWord(true);
                 }
             }
@@ -35,9 +34,8 @@ public class Trie {
 
     public TrieNode checkPrefix(String text) {
         TrieNode aux = getRoot();
-        char[] letters = text.toCharArray();
 
-        for(char letter : letters) {
+        for(char letter : text.toCharArray()) {
             if(aux.getChildren().containsKey(letter)){
                 aux = aux.getChild(letter);
             }else {
@@ -52,10 +50,10 @@ public class Trie {
         TrieNode aux = checkPrefix(text);
 
         if(aux == null){
-            System.out.println("A palavra pesquisada não existe.");
+            System.out.println("A palavra '"+text+"' não existe na árvore.");
         }
         else if(aux.isWord()) {
-            System.out.println("A palavra pesquisada existe.");
+            System.out.println("A palavra '"+text+"' existe na árvore.");
         }
 
     }
@@ -67,7 +65,7 @@ public class Trie {
         if(aux != null) {
             words = getSugestions(words, aux, text);
             if(words.isEmpty()) {
-                System.out.println("\nNenhuma sugestão encontrada.");
+                System.out.println("\nNenhuma sugestão encontrada para '"+text+"'.");
             }else {
                 System.out.println("\nAutocomplete para '"+text+"':");
                 for(String word : words) {
@@ -110,25 +108,49 @@ public class Trie {
         return words;
     }
 
-    public void remove(String text) {
-        TrieNode aux = checkPrefix(text);
-
-        if (aux != null) {
-            System.out.println("'"+text+"' foi removida com sucesso.");
-            int count = text.length();
-            while(text.length() > 0) {
-                aux = checkPrefix(text);
-                if(aux.getChildren().isEmpty()) {
-                    aux = null;
-                }
-                if(count == text.length() && aux.isWord()) {
-                    aux.setWord(false);
-                }
-                text = text.substring(0, text.length()-1);
-            }
+    public void checkRemove(String word) {
+        boolean check = remove(word);
+        if(check == true) {
+            System.out.println("A palavra '"+word+"' foi removida com sucesso.");
         }else {
-            System.out.println("Remoção inválida! Palavra não encontrada.");
+            System.out.println("Remoção inválida! A palavra '"+word+"' não foi encontrada na árvore.");
         }
+    }
+
+    public boolean remove(String word) {
+        if (word == null || word.length() == 0) {
+            return false;
+        }
+
+        TrieNode aux = null;
+        char deleteLetter = '\0';
+
+        TrieNode parent = root;
+        for(char letter : word.toCharArray()){
+
+            TrieNode child = parent.getChildren().get(letter);
+            if (child == null) {
+                return false;
+            }
+
+            if (parent.getChildren().size() > 1 || parent.isWord()) {
+                aux = parent;
+                deleteLetter = letter;
+            }
+            parent = child;
+        }
+
+        if (!parent.isWord()) {
+            return false;
+        }
+
+        if (parent.getChildren().isEmpty()) {
+            aux.getChildren().remove(deleteLetter);
+        } else {
+            parent.setWord(false);
+        }
+
+        return true;
     }
 
 }
